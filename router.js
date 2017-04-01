@@ -16,5 +16,5 @@ module.exports = (router) => {
         })
       res.json(result)
     })
-  }) d
+  })
 }
