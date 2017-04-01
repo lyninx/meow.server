@@ -51,7 +51,7 @@ module.exports = {
 			if(c) {
 				if(c.hash != this.generate_hash(JSON.stringify(cat_data))){
 					this.update_cat(cat_data)
-					this.send_notification("update", cat_data)
+					if(cat.Age <= MAX_AGE) this.send_notification("update", cat_data)
 				}
 			} else {
 				this.new_cat(cat_data)
@@ -84,30 +84,28 @@ module.exports = {
 		})		
 	},
 	send_notification(type, cat){
-		if(cat.Age <= MAX_AGE){
-			let message = ""
-			switch(type){
-				case "new": message = "NEW CAT"
-				break;
-				case "update": message = "UPDATED"
-				break;
-			}
-			message = message + " " 
-					+ cat.AnimalName 
-					+ " " + Math.floor(cat.Age / 12) + "y " + cat.Age % 12 + "m "
-					+ cat.Sex + " "
-					+ cat.PrimaryBreed + " "
-					+ cat.LastIntakeDate
-
-			client.sendMessage({
-				to: "+16478982241",
-				from: keys.twilioNumber,
-				body: message
-			}, function(err, data) {
-				if (err) console.log(err)
-				console.log("notification sent")
-			})
+		let message = ""
+		switch(type){
+			case "new": message = "NEW CAT"
+			break;
+			case "update": message = "UPDATED"
+			break;
 		}
+		message = message + " " 
+				+ cat.AnimalName 
+				+ " " + Math.floor(cat.Age / 12) + "y " + cat.Age % 12 + "m "
+				+ cat.Sex + " "
+				+ cat.PrimaryBreed + " "
+				+ cat.LastIntakeDate
+
+		client.sendMessage({
+			to: "+16478982241",
+			from: keys.twilioNumber,
+			body: message
+		}, function(err, data) {
+			if (err) console.log(err)
+			console.log("notification sent")
+		})
 	},
 	generate_hash(data){
 		return crypto.createHash('md5').update(data).digest("hex")
