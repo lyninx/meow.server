@@ -6,7 +6,7 @@ var twilio = require('twilio')
 let keys	 = require('./config/keys.js')
 let cat      = require('./model/cat.js')
 
-const POLLING_RATE = 32
+const POLLING_RATE = 300
 const MAX_AGE = 14
 const LISTINGS_URL = 'https://www.torontohumanesociety.com/api/api.php?action=getAnimalsForSpeciesId&id=2&stageId=2'
 const ANIMAL_URL = 'https://www.torontohumanesociety.com/api/api.php?action=getListingForAnimalId&id='
