@@ -12,11 +12,4 @@ module.exports = (router) => {
       res.json(c)
     })
   })
-
-  router.get('/clear', cors(), (req, res, next) => {
-    cat.remove({}, function (err, c) {
-      if (err) return next(err)
-      res.json(c)
-    })
-  })
 }
