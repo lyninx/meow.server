@@ -9,7 +9,12 @@ module.exports = (router) => {
   router.get('/', cors(), (req, res, next) => {
     cat.find({}, function (err, c) {
       if (err) return next(err)
-      res.json(c)
+        result = c.map((elem) => {
+          elem = elem.toObject()
+          elem.cat = JSON.parse(elem.cat)
+          return elem
+        })
+      res.json(result)
     })
-  })
+  }) d
 }

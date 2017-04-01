@@ -54,12 +54,12 @@ module.exports = {
 					this.send_notification("update", cat_data)
 				}
 			} else {
-				this.update_cat(cat_data)
+				this.new_cat(cat_data)
 				this.send_notification("new", cat_data)
 			}
 		})
 	},
-	update_cat(c){
+	new_cat(c){
 		cat_data = JSON.stringify(c)
 		let obj = {
 			updated: Date.now(),
@@ -69,7 +69,18 @@ module.exports = {
 		}
 		cat.create(obj, (err, c) => {	
 			if (err) return next(err)
-			console.log(c)
+		})		
+	},
+	update_cat(c){
+		cat_data = JSON.stringify(c)
+		let obj = {
+			updated: Date.now(),
+			cat_id: c.ID,
+			hash: this.generate_hash(cat_data),
+			cat: cat_data
+		}
+		cat.findOneAndUpdate({cat_id: c.ID}, obj, (err, c) => {	
+			if (err) return next(err)
 		})		
 	},
 	send_notification(type, cat){
